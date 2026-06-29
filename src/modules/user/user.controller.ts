@@ -1,6 +1,7 @@
-import { NextFunction, Request, Response } from "express";
+import { NextFunction, Request, RequestHandler, Response } from "express";
 import { userService } from "./user.service";
-import httpStatus from "http-status";
+import httpStatus, { status } from "http-status";
+import { sendResponse } from "../../utils/sendResponse";
 import { catchAsync } from "../../utils/catchAsync";
 // const registerUser = async (req: Request, res: Response) => {
 //   try {
@@ -26,29 +27,19 @@ import { catchAsync } from "../../utils/catchAsync";
 //   }
 // };
 
-const registerUser = catchAsync( async (req: Request, res: Response, next: NextFunction) => {
+const registerUser = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
     const payload = req.body;
-
     const user = await userService.registerUserIntoDB(payload);
 
-    // res.status(httpStatus.CREATED).json({
-    //     success: true,
-    //     statusCode: httpStatus.CREATED,
-    //     message: "User registered successfully",
-    //     data: {
-    //         user
-    //     }
-    // });
     sendResponse(res, {
-        success: true,
-        statusCode: httpStatus.CREATED,
-        message: "User registered successfully",
-        data: { user }
-    })
-})
-
-
-
+      success: true,
+      statusCode: httpStatus.CREATED,
+      message: "user registered successfully.",
+      data: { user },
+    });
+  },
+);
 
 const getAllUser = async (req: Request, res: Response) => {
   try {
@@ -73,6 +64,6 @@ const getAllUser = async (req: Request, res: Response) => {
   }
 };
 export const userController = {
-    registerUser,
-    getAllUser
-}
+  registerUser,
+  getAllUser,
+};

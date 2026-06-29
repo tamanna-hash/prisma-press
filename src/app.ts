@@ -3,6 +3,7 @@ import cors from "cors"
 import cookieParser from "cookie-parser";
 import config from "./config";
 import { userRoutes } from "./modules/user/user.route";
+import { authRoutes } from "./modules/auth/auth.route";
 const app: Application = express();
 
 app.use(cors({
@@ -18,4 +19,5 @@ app.get("/", (req: Request, res: Response) => {
   res.send("HElo");
 });
 app.use('/api/user',userRoutes)
+app.use('/api/auth',authRoutes)
 export default app;
